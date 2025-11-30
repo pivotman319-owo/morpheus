@@ -16,8 +16,9 @@ rem set REQUIRED_SKU_CLIENT=Prerelease
 rem set REQUIRED_SKU_SERVER=ServerDatacenter
 
 rem These is the applicable build range we'll set for this script. Prevent our redpill installer from running if we're out of this range.
+rem SPP format change happened sometime around ~788x-7891. ~7885 is a safe bet.
 set REDPILL_MIN_SUPPORT_FLOOR=7779
-set REDPILL_MIN_SUPPORT_OLD_SPP_FORMAT_CEILING=7800
+set REDPILL_MIN_SUPPORT_OLD_SPP_FORMAT_CEILING=7885
 set REDPILL_MIN_SUPPORT_CEILING=8123
 
 @FOR /f "tokens=3" %%i in (

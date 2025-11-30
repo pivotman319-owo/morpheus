@@ -68,7 +68,7 @@ rem If we're running this on an older Win8 build, we need to make sure TSForge h
 rem against the old SPP trusted store format. Activation WILL fail if the store structure
 rem doesn't match what's being expected by this script.
 
-if IS_RUNNING_OLD_BUILD == 1 (
+if %IS_RUNNING_OLD_BUILD% == 1 (
 	rem Switch to old SPP store version.
 	set TSFORGE_OS_TYPE=8early
 ) else (
