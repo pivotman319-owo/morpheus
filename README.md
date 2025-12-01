@@ -16,12 +16,10 @@ Unlike other previous approaches made to enable Redpill features, Morpheus lever
     <img width=512 src=".assets/morpheus_demo1.png" alt="Morpheus Demo Screenshot - Redpill licensing tier selection"/>
   </picture>
 </p>
+
 <p align="center">
   <picture>
-    <img width=384 src=".assets/morpheus_demo2.png" alt="Morpheus Demo Screenshot - Redpill Tier 3"/>
-  </picture>
-  <picture>
-    <img width=384 src=".assets/morpheus_demo3.png" alt="Morpheus Demo Screenshot - Metro OOBE and SPPSvc running at once"/>
+    <img src=".assets/morpheus_overview_diagram.png" alt="Redpill Conversion Diagram"/>
   </picture>
 </p>
 
@@ -39,3 +37,13 @@ Kudos to the following for their tools and help:
 * The folks at MAS for developing [TSForge](https://github.com/massgravel/TSForge)
 	* Special thanks to @WitherOrNot for assisting in debugging an astoundingly stupid SPP bug that prevented the other three Redpill licensing tiers from activating
 * NirSoft for their AdvancedRun tool (used to elevate Redlock to the `TrustedInstaller` account)
+
+## Screenshots
+<p align="center">
+  <picture>
+    <img width=384 src=".assets/morpheus_demo2.png" alt="Morpheus Demo Screenshot - Redpill Tier 3"/>
+  </picture>
+  <picture>
+    <img width=384 src=".assets/morpheus_demo3.png" alt="Morpheus Demo Screenshot - Metro OOBE and SPPSvc running at once"/>
+  </picture>
+</p>

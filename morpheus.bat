@@ -250,9 +250,9 @@ color
 cls
 title 
 rem Invoke CMD + Explorer as a failsafe
-start "%WINDIR%\System32\cmd.exe"
-start "%WINDIR%\explorer.exe"
-exit /b 1
+start "Emergency Command Shell" "%WINDIR%\System32\cmd.exe"
+start "" "%WINDIR%\explorer.exe"
+exit
 
 :TestSignedSPP
 rem We can't activate RP01 on testsigned builds. Bail.
