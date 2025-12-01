@@ -35,10 +35,10 @@ For best results, use Redpill lockdown tier 1 and just add water.
 
 ## Credits
 Kudos to the following for their tools and help:
-* gus33000 and casm for making Redlock, the tool used to drop in the Redpill payload
-* The folks at MAS for developing [TSForge](https://github.com/massgravel/TSForge)
-	* Special thanks to @WitherOrNot for assisting in debugging an astoundingly stupid SPP bug that prevented the other three Redpill licensing tiers from activating
-* NirSoft for their AdvancedRun tool (used to elevate Redlock to the `TrustedInstaller` account)
+* gus33000 and casm for making Redlock, the tool used to drop in the [Redpill ShSxS payload](https://github.com/thebookisclosed/shsxs) - licensed under GPLv3
+* The folks at MAS for developing [TSForge](https://github.com/massgravel/TSForge) - licensed under GPLv3
+	* Special thanks to [WitherOrNot](https://github.com/WitherOrNot) for assisting in debugging an astoundingly stupid SPP bug that prevented the other three Redpill licensing tiers from activating
+* NirSoft for their [AdvancedRun](https://www.nirsoft.net/utils/advanced_run.html) tool (used to elevate Redpill payload to the `TrustedInstaller` account)
 
 ## Screenshots
 <p align="center">
