@@ -8,6 +8,7 @@ rem Redpill licensing variables (used by install_key.cmd)
 set RP_DATA_LOOKS_RIGHT=0
 set RP_LICENSE_TIER=0
 set RP_SHSXS_SKIP_REQUIRED=0
+set RP_BAD_TWINUI_DLL=0
 
 rem "Screwed build" variables
 set BUILD_TOO_HIGH=0
@@ -50,6 +51,8 @@ if %BUILD_TOO_HIGH% == 1 (
 	goto :NoNoBuild_Ceiling
 ) else if %IS_RUNNING_ARM% == 1 ( 
 	goto :IsOnARMv7
+) else if %RP_BAD_TWINUI_DLL% == 1 (
+	goto :7989_BadTWinUI
 ) else if %SCREWED% == 1 ( 
 	goto :NoNoBuild
 ) else (
@@ -324,6 +327,28 @@ pause > nul
 color
 cls
 title 
+goto :EOF
+
+:7989_BadTWinUI
+rem Bad twinui.dll. Restart the system.
+title System Restart Required
+cls
+color 6F
+echo.
+echo     The library responsible for handling Windows 8's user interface,
+echo     TWINUI.DLL, was replaced with a version that lacks the necessary
+echo     functionality needed to handle most features locked down by Redpill.
+echo.
+echo     Morpheus has restored the original TWINUI library that came as part
+echo     of this build, but a reboot is required to enable Redpill features.
+echo.
+echo     Press any key to restart this system.
+echo.
+pause > nul
+color
+cls
+title 
+shutdown /r /t 10 /c "Restart initiated by Morpheus: Bad TWINUI library." /d p:2:17
 goto :EOF
 
 :TheFucksWrongWithYourPC_SPPSvcDisabled

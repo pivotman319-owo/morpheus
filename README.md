@@ -26,7 +26,7 @@ Unlike other previous approaches made to enable Redpill features, Morpheus lever
 ## Usage
 Run Morpheus on a Windows 8 build with production-signed SPP certificate chains. You can determine whether a build is using production signing by checking whether the SPP Trusted Store directory (`Windows\System32\spp\store`) exists in the OS installation. Builds with test-signed certificate chains are easily distinguished from production-signed chains if the SPP store directory has the `_test` suffix in its name; Morpheus will not run if this is the case.
 
-Morpheus supports Windows 8 builds 7779 through 8123, through your mileage may vary between different milestones. Morpheus will refuse to run on Windows 8 builds that have code paths for the Metro UX stripped out, in particular:
+Morpheus supports Windows 8 builds 7779 through 8123, though your mileage may vary between different milestones. Morpheus will refuse to run on Windows 8 builds that have code paths for the Metro UX stripped out, in particular:
 * `WINMAIN` 8020 x86/amd64
 * `FBL_EEAP` builds 8049 and later
 * Any `WINMAIN_WIN8M3_EEAP` build
