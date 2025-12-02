@@ -24,8 +24,7 @@ set RP_SHSXS_SKIP_LAB=winmain_win8m3
 
 rem Needed for 7989 edge case...
 set RP_SKU_CLIENT_ULTIMATE=Ultimate
-set RP_7989_SANITY_CERTUTIL_EXE=%WINDIR%\system32\certutil.exe
-set RP_7989_SANITY_EXPECTED_SHA=17 b9 e7 05 ba 86 7d 93 06 8a 5d ca 2e 98 47 31 60 fc 55 84
+set RP_7989_SANITY_EXPECTED_SHA="17 b9 e7 05 ba 86 7d 93 06 8a 5d ca 2e 98 47 31 60 fc 55 84"
 
 rem These is the applicable build range we'll set for this script. Prevent our redpill installer from running if we're out of this range.
 rem SPP format change happened sometime around ~788x-7891. ~7885 is a safe bet.
@@ -124,21 +123,28 @@ rem that lacks the appropriate code paths needed for the Windows 8 shell to func
 rem is 7989, lab is winmain and current edition is Ultimate, we need to check if twinui has been SFC'd or not.
 rem If it returns positive, SFC it and then reboot the system. 
 
-if %CURRENT_BUILD% == 7989 if %CURRENT_LAB_NAME% == %NO_NO_LAB_WM% if %CURRENT_ARCH% == amd64fre if %CURRENT_SKU% == %RP_SKU_CLIENT_ULTIMATE% (
-	rem Invoke certutil and check hash.
-	echo Special edge case detected - We're running 7989 Ultimate amd64fre. Checking hash of TWINUI...
-	
-	%RP_7989_SANITY_CERTUTIL_EXE% -hashfile "%WINDIR%\System32\twinui.dll" | findstr /C:"%RP_7989_SANITY_EXPECTED_SHA%" > NUL & if ERRORLEVEL == 0 (
-		rem Hash doesn't match the clean version. SFC it and mark system as ineligible for pilling.
-		echo.
-		echo Bad TWINUI library detected. Restoring clean copy from WinSxS...
-		echo.
-		sfc /scanfile="%WINDIR%\System32\twinui.dll" > NUL
-		set RP_BAD_TWINUI_DLL=1
-		set SCREWED=1
-		goto :EOF
-	)
-)
+rem this is the stupidest thing i had to write today, but my hopes are stretched thin right now and i'm hoping this
+rem ugly fucking hack of a call even works...
+
+rem 02/12/2025: This is never going to fucking work
+rem SETLOCAL DISABLEDELAYEDEXPANSION
+rem @for /f "skip=1 tokens=1 eol=C delims=" %%i in ('certutil -hashfile "%WINDIR%\System32\twinui.dll"') do ( set RP_7989_SANITY_CURRENT_SHA="%%i" )
+rem if %CURRENT_BUILD% == 7989 if %CURRENT_LAB_NAME% == %NO_NO_LAB_WM% if %CURRENT_ARCH% == amd64fre if %CURRENT_SKU% == %RP_SKU_CLIENT_ULTIMATE% (
+rem 	echo Special edge case detected - We're running 7989 Ultimate amd64fre. Checking hash of TWINUI...
+rem 	
+rem 	rem fucking kill me for this
+rem 	echo %RP_7989_SANITY_CURRENT_SHA% | findstr /C:%RP_7989_SANITY_EXPECTED_SHA% > nul & if ERRORLEVEL == 1 (
+rem 		rem Hash doesn't match the clean version. SFC it and mark system as ineligible for pilling.
+rem 		echo.
+rem 		echo Bad TWINUI library detected. Restoring clean copy from WinSxS...
+rem 		echo.
+rem 		sfc /scanfile="%WINDIR%\System32\twinui.dll" > NUL
+rem 		set RP_BAD_TWINUI_DLL=1
+rem 		set SCREWED=1
+rem 		goto :EOF
+rem 	)
+rem )
+rem SETLOCAL ENABLEDELAYEDEXPANSION
 
 rem This exists so we can skip the ShSxS payload if we're on 8102 WINMAIN_WIN8M3.
 if %CURRENT_BUILD% == %RP_SHSXS_SKIP_BUILDNUM% if %CURRENT_LAB_NAME% == %RP_SHSXS_SKIP_LAB% (
