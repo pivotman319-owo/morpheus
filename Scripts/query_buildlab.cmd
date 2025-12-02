@@ -24,9 +24,8 @@ set RP_SHSXS_SKIP_LAB=winmain_win8m3
 
 rem Needed for 7989 edge case...
 set RP_SKU_CLIENT_ULTIMATE=Ultimate
-set RP_7989_SANITY_FCIV_EXE=%~dp0\..\Bin\FCIV\fciv.exe
-set RP_7989_SANITY_CURRENT_SHA=TempVar
-set RP_7989_SANITY_EXPECTED_SHA=17b9e705ba867d93068a5dca2e98473160fc5584
+set RP_7989_SANITY_CERTUTIL_EXE=%WINDIR%\system32\certutil.exe
+set RP_7989_SANITY_EXPECTED_SHA=17 b9 e7 05 ba 86 7d 93 06 8a 5d ca 2e 98 47 31 60 fc 55 84
 
 rem These is the applicable build range we'll set for this script. Prevent our redpill installer from running if we're out of this range.
 rem SPP format change happened sometime around ~788x-7891. ~7885 is a safe bet.
@@ -125,17 +124,12 @@ rem that lacks the appropriate code paths needed for the Windows 8 shell to func
 rem is 7989, lab is winmain and current edition is Ultimate, we need to check if twinui has been SFC'd or not.
 rem If it returns positive, SFC it and then reboot the system. 
 
-@for /f "skip=3 tokens=1* delims= " %%i in ('%RP_7989_SANITY_FCIV_EXE% -sha1 "%WINDIR%\System32\twinui.dll"') do ( set RP_7989_SANITY_CURRENT_SHA=%%i )
 if %CURRENT_BUILD% == 7989 if %CURRENT_LAB_NAME% == %NO_NO_LAB_WM% if %CURRENT_ARCH% == amd64fre if %CURRENT_SKU% == %RP_SKU_CLIENT_ULTIMATE% (
-	rem Invoke FCIV and check hash.
+	rem Invoke certutil and check hash.
 	echo Special edge case detected - We're running 7989 Ultimate amd64fre. Checking hash of TWINUI...
 	
-	rem print hashes
-	echo.
-	echo Current TwinUI hash: %RP_7989_SANITY_CURRENT_SHA%
-	echo Expected TwinUI hash: %RP_7989_SANITY_EXPECTED_SHA%
-	if not %RP_7989_SANITY_CURRENT_SHA% == %RP_7989_SANITY_EXPECTED_SHA% (
-		rem We've got a match, SFC it and mark system as ineligible for pilling.
+	%RP_7989_SANITY_CERTUTIL_EXE% -hashfile "%WINDIR%\System32\twinui.dll" | findstr /C:"%RP_7989_SANITY_EXPECTED_SHA%" > NUL & if ERRORLEVEL == 0 (
+		rem Hash doesn't match the clean version. SFC it and mark system as ineligible for pilling.
 		echo.
 		echo Bad TWINUI library detected. Restoring clean copy from WinSxS...
 		echo.
